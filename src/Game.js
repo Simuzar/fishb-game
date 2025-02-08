@@ -14,7 +14,10 @@ class Game {
     this.enemyTimer = 0;
     this.enemyInterval = 1000;
     this.gameOver = false;
+    this.score = 0;
+    this.winningScore = 30;
   }
+
   update(deltaTime) {
     this.player.update(deltaTime);
 
@@ -38,7 +41,14 @@ class Game {
       //check for collision between projectiles and emenies
       this.player.projectiles.forEach(projectile => {
         if (this.checkCollision(projectile, enemy)) {
+          enemy.lives--;
           projectile.markedForDeletion = true;
+          // check if enemy has lives left
+          if (enemy.lives <= 0) {
+            enemy.markedForDeletion = true;
+            this.score += enemy.score;
+            if (this.isWin()) this.gameOver = true;
+          }
         }
       })
     });
@@ -72,5 +82,9 @@ class Game {
       rect1.y < rect2.y + rect2.height &&
       rect2.y < rect1.y + rect1.height
     );
+  }
+
+  isWin() {
+    return this.score >= this.winningScore;
   }
 }
