@@ -30,6 +30,7 @@ class Player {
   }
 
   draw(context) {
+    //draw and color the protagonist
     context.fillStyle = "black";
     context.fillRect(this.x, this.y, this.width, this.height);
 
