@@ -16,9 +16,14 @@ class Game {
     this.gameOver = false;
     this.score = 0;
     this.winningScore = 30;
+    this.gameTime = 0;
+    this.timeLimit = 20 * 1000;
   }
 
   update(deltaTime) {
+    if (!this.gameOver) this.gameTime += deltaTime;
+    if (this.gameTime > this.timeLimit) this.gameOver = true;
+
     this.player.update(deltaTime);
 
     //ammo
@@ -39,18 +44,18 @@ class Game {
       }
 
       //check for collision between projectiles and emenies
-      this.player.projectiles.forEach(projectile => {
+      this.player.projectiles.forEach((projectile) => {
         if (this.checkCollision(projectile, enemy)) {
           enemy.lives--;
           projectile.markedForDeletion = true;
           // check if enemy has lives left
           if (enemy.lives <= 0) {
             enemy.markedForDeletion = true;
-            this.score += enemy.score;
+            if (!this.gameOver) this.score += enemy.score;
             if (this.isWin()) this.gameOver = true;
           }
         }
-      })
+      });
     });
     this.enemies = this.enemies.filter((enemy) => !enemy.markedForDeletion);
 

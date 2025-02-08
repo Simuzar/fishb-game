@@ -22,10 +22,10 @@ class UI {
       let message2;
       if (this.game.isWin()) {
         message1 = "You win!";
-        message2 = "Good job!";
+        message2 = "Good job.";
       } else {
         message1 = "You lost!";
-        message2 = "Better luck next time!";
+        message2 = "Better luck next time.";
       }
       context.font = "70px " + this.fontFamily;
       context.fillText(
@@ -44,5 +44,9 @@ class UI {
       context.fillRect(5 * i + 20, 50, 3, 20);
     }
     context.restore();
+
+    //timer
+    const formattedTime = (this.game.gameTime * 0.001).toFixed(1);
+    context.fillText("Timer: " + formattedTime, 20, 100);
   }
 }
